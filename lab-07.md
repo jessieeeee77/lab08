@@ -1,13 +1,11 @@
----
-title: "Lab 07 - University of Edinburgh Art Collection"
-author: "Zheqi"
-date: "2/23"
-output: github_document
----
+Lab 07 - University of Edinburgh Art Collection
+================
+Zheqi
+2/23
 
 ### Load packages and data
 
-```{r load-packages, message = FALSE}
+``` r
 library(tidyverse) 
 library(skimr)
 library(rvest)
@@ -18,7 +16,7 @@ first_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburg
 page <- read_html(first_url)
 ```
 
-```{r load-data, message = FALSE, eval = FALSE}
+``` r
 page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
@@ -38,22 +36,23 @@ page %>%
   html_node("h3 a") %>%         # as before
   html_attr("href")             # but get href attribute instead of text
 ```
-```{r 1}
+
+``` r
 links <- page %>%
   html_nodes(".iteminfo") %>%   # same nodes
   html_node("h3 a") %>%
   html_attr("href") %>%
   str_replace(".record", "https://collections.ed.ac.uk/art/record")
-
 ```
-```{r 2}
+
+``` r
 artists <- page %>%
   html_nodes(".artist") %>%
   html_text() %>%
   str_squish()
 ```
 
-```{r 3}
+``` r
 titles <- page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
@@ -67,7 +66,22 @@ art_first_page <- tibble(
 
 art_first_page
 ```
-```{r 4}
+
+    ## # A tibble: 10 × 3
+    ##    title                                                  link            artist
+    ##    <chr>                                                  <chr>           <chr> 
+    ##  1 Unknown (1960)                                         .https://colle… Robin…
+    ##  2 Madonna of the Roses (2007)                            .https://colle… Racha…
+    ##  3 Standing Male Nudes (1950)                             .https://colle… Sheil…
+    ##  4 The Misadventure (1989)                                .https://colle… John …
+    ##  5 Seated Male Nude (1965)                                .https://colle… J Lord
+    ##  6 Seated Female Nude (1953)                              .https://colle… Lilia…
+    ##  7 Untitled - Still Life with Flowers and Pitchers (1963) .https://colle… Helen…
+    ##  8 Untitled (12 Jun 2014)                                 .https://colle… Norma…
+    ##  9 Untitled - Snowy Landscape (1962)                      .https://colle… Geoff…
+    ## 10 Woman Seated (1954)                                    .https://colle… John …
+
+``` r
 second_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=10"
 
 page <- read_html(second_url)
@@ -104,27 +118,28 @@ second_ten <- tibble(
 )
 ```
 
-
-
-
 ### Exercise 9
 
-```{r separate-title-date, error = TRUE}
+``` r
 uoe_art <- uoe_art %>%
   separate(title, into = c("title", "date"), sep = "\\(") %>%
   mutate(year = str_remove(date, "\\)") %>% as.numeric()) %>%
   select(title, artist, year, ___)
 ```
 
+    ## Error: <text>:4:32: unexpected input
+    ## 3:   mutate(year = str_remove(date, "\\)") %>% as.numeric()) %>%
+    ## 4:   select(title, artist, year, __
+    ##                                   ^
+
 ### Exercise 10
 
-Remove this text, and add your answer for Exercise 10 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+Remove this text, and add your answer for Exercise 10 here. Add code
+chunks as needed. Don’t forget to label your code chunk. Do not use
+spaces in code chunk labels.
 
 ### Exercise 11
 
-...
+…
 
 Add exercise headings as needed.
