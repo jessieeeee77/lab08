@@ -105,7 +105,51 @@ second_ten <- tibble(
 ```
 
 
+```{r 5}
+function(url){
+  
+  # read page
+  page <- read_html(url)
+  
+  # scrape titles ----------------------------------------------------------------
+  
+  titles <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_text() %>%
+    str_squish()
+  
+  # scrape links -----------------------------------------------------------------
+  
+  links <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_attr("href") %>%
+    str_replace("\\.", "___")
+  
+  # scrape artists ---------------------------------------------------------------
+  
+  artists <- page %>%
+    html_node(".artist") %>%
+    html_text() %>%
+    str_squish()
+  
+  # put together in a data frame -------------------------------------------------
+  
+  art_first_page <- tibble(
+    title = titles,
+    artist = artists,
+    link = links
+  )
 
+  
+}
+```
+
+```{r 6}
+
+#same results.
+```
 
 ### Exercise 9
 
