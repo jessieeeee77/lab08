@@ -70,16 +70,16 @@ art_first_page
     ## # A tibble: 10 × 3
     ##    title                                                  link            artist
     ##    <chr>                                                  <chr>           <chr> 
-    ##  1 Unknown (1960)                                         .https://colle… Robin…
-    ##  2 Madonna of the Roses (2007)                            .https://colle… Racha…
-    ##  3 Standing Male Nudes (1950)                             .https://colle… Sheil…
-    ##  4 The Misadventure (1989)                                .https://colle… John …
-    ##  5 Seated Male Nude (1965)                                .https://colle… J Lord
-    ##  6 Seated Female Nude (1953)                              .https://colle… Lilia…
-    ##  7 Untitled - Still Life with Flowers and Pitchers (1963) .https://colle… Helen…
-    ##  8 Untitled (12 Jun 2014)                                 .https://colle… Norma…
-    ##  9 Untitled - Snowy Landscape (1962)                      .https://colle… Geoff…
-    ## 10 Woman Seated (1954)                                    .https://colle… John …
+    ##  1 Untitled (2004)                                        .https://colle… Rebec…
+    ##  2 Untitled (1963)                                        .https://colle… Andre…
+    ##  3 Seated Female Nude (1994-1995)                         .https://colle… Nicho…
+    ##  4 Portrait of a Woman (1959)                             .https://colle… Willi…
+    ##  5 Untitled - Abstract Figures and Shapes (1965-1966)     .https://colle… James…
+    ##  6 Untitled (2003)                                        .https://colle… Andre…
+    ##  7 Portrait of a Woman (1956)                             .https://colle… John …
+    ##  8 Seated Female Nude (1953)                              .https://colle… Lilia…
+    ##  9 Madonna of the Roses (2007)                            .https://colle… Racha…
+    ## 10 Untitled - Still Life with Flowers and Pitchers (1963) .https://colle… Helen…
 
 ``` r
 second_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=10"
@@ -122,7 +122,7 @@ second_ten <- tibble(
 function(url){
   
   # read page
-  page <- read_html(url)
+  page <- read_html(urls)
   
   # scrape titles ----------------------------------------------------------------
   
@@ -138,7 +138,7 @@ function(url){
     html_nodes(".iteminfo") %>%
     html_node("h3 a") %>%
     html_attr("href") %>%
-    str_replace("\\.", "___")
+    str_replace("\\.", "https://collections.ed.ac.uk/art")
   
   # scrape artists ---------------------------------------------------------------
   
@@ -162,7 +162,7 @@ function(url){
     ## function(url){
     ##   
     ##   # read page
-    ##   page <- read_html(url)
+    ##   page <- read_html(urls)
     ##   
     ##   # scrape titles ----------------------------------------------------------------
     ##   
@@ -178,7 +178,7 @@ function(url){
     ##     html_nodes(".iteminfo") %>%
     ##     html_node("h3 a") %>%
     ##     html_attr("href") %>%
-    ##     str_replace("\\.", "___")
+    ##     str_replace("\\.", "https://collections.ed.ac.uk/art")
     ##   
     ##   # scrape artists ---------------------------------------------------------------
     ##   
@@ -202,19 +202,20 @@ function(url){
 #same results.
 ```
 
+``` r
+root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset="
+```
+
 ### Exercise 9
 
 ``` r
 uoe_art <- uoe_art %>%
   separate(title, into = c("title", "date"), sep = "\\(") %>%
   mutate(year = str_remove(date, "\\)") %>% as.numeric()) %>%
-  select(title, artist, year, ___)
+  select(title, artist, year)
 ```
 
-    ## Error: <text>:4:32: unexpected input
-    ## 3:   mutate(year = str_remove(date, "\\)") %>% as.numeric()) %>%
-    ## 4:   select(title, artist, year, __
-    ##                                   ^
+    ## Error in separate(., title, into = c("title", "date"), sep = "\\("): object 'uoe_art' not found
 
 ### Exercise 10
 

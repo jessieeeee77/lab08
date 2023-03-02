@@ -109,7 +109,7 @@ second_ten <- tibble(
 function(url){
   
   # read page
-  page <- read_html(url)
+  page <- read_html(urls)
   
   # scrape titles ----------------------------------------------------------------
   
@@ -125,7 +125,7 @@ function(url){
     html_nodes(".iteminfo") %>%
     html_node("h3 a") %>%
     html_attr("href") %>%
-    str_replace("\\.", "___")
+    str_replace("\\.", "https://collections.ed.ac.uk/art")
   
   # scrape artists ---------------------------------------------------------------
   
@@ -151,13 +151,22 @@ function(url){
 #same results.
 ```
 
+
+```{r 7}
+
+
+root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset="
+
+                        
+```
+
 ### Exercise 9
 
 ```{r separate-title-date, error = TRUE}
 uoe_art <- uoe_art %>%
   separate(title, into = c("title", "date"), sep = "\\(") %>%
   mutate(year = str_remove(date, "\\)") %>% as.numeric()) %>%
-  select(title, artist, year, ___)
+  select(title, artist, year)
 ```
 
 ### Exercise 10

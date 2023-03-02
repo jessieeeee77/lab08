@@ -24,12 +24,12 @@ scrape_page <- function(url){
     html_nodes(".iteminfo") %>%
     html_node("h3 a") %>%
     html_attr("href") %>%
-    str_replace("\\.", "___")
+    str_replace("\\.", "https://collections.ed.ac.uk/art")
   
   # scrape artists ---------------------------------------------------------------
   
   artists <- page %>%
-    html_node(".artist") %>%
+    html_nodes(".artist") %>%
     html_text() %>%
     str_squish()
   
